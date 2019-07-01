@@ -41,7 +41,7 @@ class PipeManager
 
   def initialize(window:)
     @pipes = [
-      # [
+      [
         Pipe.new(position: :top, height: 200, x: 400),
         Pipe.new(position: :bottom, height: 50, x: 400, y: window.get(:height) - 50)
       ]
