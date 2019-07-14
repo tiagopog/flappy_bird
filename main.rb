@@ -8,6 +8,28 @@ set title: 'Flappy Bird',
   resizable: false,
   background: 'blue'
 
+class Game
+  def self.collision?(char, objects)
+    Array(objects).any? do |object|
+      horizontal = char.x + char.width > object.x && char.x < object.x + object.width
+      vertical = object.y + object.height > char.y && object.y < char.y + char.height
+      horizontal && vertical
+    end
+  end
+
+  def initialize
+    @over = false
+  end
+
+  def over!
+    @over = true
+  end
+
+  def over?
+    @over
+  end
+end
+
 class Bird < Rectangle
   attr_accessor :flying
 
@@ -49,24 +71,22 @@ class PipeManager
   def initialize(window:)
     @window = window
     @pipes = [
-      [
-        Pipe.new(position: :top, height: 200, x: window.get(:width) + 200),
-        Pipe.new(position: :bottom, height: 50, x: window.get(:width) + 200, y: window.get(:height) - (80 + 50)),
-        Pipe.new(position: :top, height: 100, x: window.get(:width) + 2 * 200 + 100),
-        Pipe.new(position: :bottom, height: 150, x: window.get(:width) + (2 * 200) + 100, y: window.get(:height) - (80 + 150))
-      ]
+      Pipe.new(position: :top, height: 200, x: window.get(:width) + 200),
+      Pipe.new(position: :bottom, height: 50, x: window.get(:width) + 200, y: window.get(:height) - (80 + 50)),
+      Pipe.new(position: :top, height: 100, x: window.get(:width) + 2 * 200 + 100),
+      Pipe.new(position: :bottom, height: 150, x: window.get(:width) + (2 * 200) + 100, y: window.get(:height) - (80 + 150))
     ]
   end
 
   def move_pipes!
-    pipes.each do |tuple|
-      tuple.each do |pipe|
-        pipe.x -= 2
-        pipe.x = window.get(:width) if pipe.x + pipe.width <= 0
-      end
+    pipes.each do |pipe|
+      pipe.x -= 2
+      pipe.x = window.get(:width) if pipe.x + pipe.width <= 0
     end
   end
 end
+
+game = Game.new
 
 ground = Ground.new(
   color: 'brown',
@@ -85,23 +105,25 @@ bird = Bird.new(
 
 pipe_manager = PipeManager.new(window: get(:window))
 
+on :key_down do |event|
+  if !bird.flying? && event.key == 'space'
+    bird.flying!
+    puts "fly!"
+    bird.color = 'black'
+    bird.y -= 45
+  end
+end
+
+on :key_up do
+  bird.color = 'yellow'
+  bird.falling!
+end
+
 update do
+  next if game.over?
+  game.over! if Game.collision?(bird, [*pipe_manager.pipes, ground])
   bird.y += 2
   pipe_manager.move_pipes!
-
-  on :key_down do |event|
-    if !bird.flying? && event.key == 'space'
-      bird.flying!
-      puts "fly!"
-      bird.color = 'black'
-      bird.y -= 50
-    end
-  end
-
-  on :key_up do
-    bird.color = 'yellow'
-    bird.falling!
-  end
 end
 
 show
