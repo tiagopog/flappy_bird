@@ -1,22 +1,26 @@
-class Bird < Rectangle
+class Bird < Sprite
   attr_accessor :flying
 
   def initialize(window:)
     @flying = false
 
     super(
-      width: 58,
-      height: 42,
+      'assets/images/game_sprite.png',
+      width: 34,
+      height: 24,
       x: 30,
       y: window.get(:height) / 2 - 25,
-      color: 'yellow'
+      clip_width: 34,
+      clip_height: 24,
+      clip_x: 6,
+      clip_y: 982
     )
   end
 
   def fly!
     return if flying?
     self.flying = true
-    self.y -= 45
+    self.y -= 50
   end
 
   def fall!
