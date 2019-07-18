@@ -10,7 +10,8 @@ class Ground < Sprite
       y: 430,
       clip_width: 288,
       clip_height: 110,
-      clip_x: 584
+      clip_x: 584,
+      z: 9999
     )
   end
 end

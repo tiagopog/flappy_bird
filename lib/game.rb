@@ -1,4 +1,6 @@
 class Game
+  attr_reader :over
+
   def self.collision?(char, objects)
     Array(objects).any? do |object|
       horizontal = char.x + char.width > object.x && char.x < object.x + object.width
@@ -15,7 +17,5 @@ class Game
     @over = true
   end
 
-  def over?
-    @over
-  end
+  alias over? over
 end

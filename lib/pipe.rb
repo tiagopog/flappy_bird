@@ -1,11 +1,23 @@
 require 'ruby2d'
 
-class Pipe < Rectangle
+class Pipe < Sprite
   attr_accessor :position
 
-  def initialize(position: nil, **args)
+  def initialize(position:, x:, y:)
     @position = position
-    super(args.merge(color: 'green', width: 90))
+
+    super(
+      'assets/images/game_sprite.png',
+      color: 'green',
+      width: 52,
+      height: 250,
+      x: x,
+      y: y,
+      clip_width: 52,
+      clip_height: 250,
+      clip_y: position == :top ? 715 : 646,
+      clip_x: position == :top ? 112 : 168
+    )
   end
 end
 
@@ -15,10 +27,16 @@ class PipeManager
   def initialize(window:)
     @window = window
     @pipes = [
-      Pipe.new(position: :top, height: 200, x: @window.get(:width) + 200),
-      Pipe.new(position: :bottom, height: 50, x: @window.get(:width) + 200, y: @window.get(:height) - (80 + 50)),
-      # Pipe.new(position: :top, height: 100, x: window.get(:width) + 2 * 200 + 100),
-      # Pipe.new(position: :bottom, height: 150, x: window.get(:width) + (2 * 200) + 100, y: window.get(:height) - (80 + 150))
+      Pipe.new(
+        position: :top,
+        x: @window.get(:width) + 200,
+        y: 0
+      ),
+      Pipe.new(
+        position: :bottom,
+        x: @window.get(:width) + 200,
+        y: 370
+      )
     ]
   end
 

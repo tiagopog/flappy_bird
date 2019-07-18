@@ -29,11 +29,12 @@ update do
   if game.over?
     scenario.display_score!
     next
+  elsif Game.collision?(bird, scenario.objects)
+    game.over!
+  else
+    scenario.move!
+    bird.fall!
   end
-
-  game.over! if Game.collision?(bird, scenario.objects)
-  scenario.move!
-  bird.fall!
 end
 
 show
