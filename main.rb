@@ -16,12 +16,18 @@ scenario = Scenario.new(window: get(:window))
 bird = Bird.new(window: get(:window))
 
 on :key_down do |event|
-  next if game.over?
-  bird.fly! if event.key == 'space'
+  next if game.over? || game.paused? && event.key != 'p'
+
+  case event.key
+  when 'space' then bird.fly!
+  when 'p' then game.pause!
+  end
 end
 
 update do
-  if game.over?
+  if game.paused?
+    next
+  elsif game.over?
     scenario.display_score!
     next
   elsif Game.collision?(bird, scenario.objects)
