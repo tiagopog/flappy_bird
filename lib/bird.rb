@@ -1,5 +1,10 @@
 class Bird < Sprite
-  attr_accessor :flying
+  DEFAULTS = {
+    displacement: 40,
+    throttle: { fly: 5, gravity:  2 }
+  }.freeze
+
+  attr_reader :throttle, :flying
 
   def initialize(window:)
     @flying = false
@@ -17,15 +22,25 @@ class Bird < Sprite
     )
   end
 
+  def move!
+    flying? ? fly! : fall!
+  end
+
   def fly!
-    return if flying?
-    self.flying = true
-    self.y -= 50
+    unless flying?
+      @flying = true
+      @displacement = DEFAULTS[:displacement]
+    end
+
+    @displacement -= DEFAULTS[:throttle][:fly]
+    self.y -= DEFAULTS[:throttle][:fly]
+
+    fall! if @displacement <= 0
   end
 
   def fall!
-    self.y += 2
-    self.flying = false
+    @flying = false
+    self.y += DEFAULTS[:throttle][:gravity]
   end
 
   alias flying? flying

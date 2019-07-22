@@ -8,7 +8,6 @@ class Pipe < Sprite
 
     super(
       'assets/images/game_sprite.png',
-      color: 'green',
       width: 52,
       height: 250,
       x: x,

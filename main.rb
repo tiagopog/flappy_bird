@@ -20,11 +20,6 @@ on :key_down do |event|
   bird.fly! if event.key == 'space'
 end
 
-on :key_up do
-  next if game.over?
-  bird.fall!
-end
-
 update do
   if game.over?
     scenario.display_score!
@@ -33,7 +28,7 @@ update do
     game.over!
   else
     scenario.move!
-    bird.fall!
+    bird.move!
   end
 end
 
