@@ -6,16 +6,19 @@ require_relative './pipe'
 class Scenario
   attr_reader :ground_manager, :pipe_manager
 
-  def initialize(window:)
+  def initialize(window:, difficulty:)
     @window = window
     @landspace = build_landscape
     @ground_manager = GroundManager.new
-    @pipe_manager = PipeManager.new(window: window.get(:window))
+    @pipe_manager = PipeManager.new(
+      window: window,
+      difficulty: difficulty
+    )
   end
 
-  def move!
+  def move!(**options)
     ground_manager.move!
-    pipe_manager.move!
+    pipe_manager.move! unless options[:skip] == :pipes
   end
 
   def display_score!
