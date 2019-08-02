@@ -23,19 +23,18 @@ end
 
 class PipeManager
   DEFAULTS = {
-    distance: 117,
-    throttle: 2,
     top_y: 0,
     bottom_y: 370,
-    difficulty: { easy: 20, normal: 30, hard: 60 }
+    distance: 117,
+    throttle: { easy: 2, normal: 2, hard: 3 },
+    offset_step: { easy: 20, normal: 30, hard: 60 }
   }.freeze
 
-  attr_accessor :difficulty
   attr_reader :pipes
 
-  def initialize(window:, difficulty:)
+  def initialize(window:, game:)
     @window = window
-    @difficulty = difficulty
+    @game = game
     @pipes = [
       Pipe.new(position: :top, x: initial_x(:first)),
       Pipe.new(position: :bottom, x: initial_x(:first)),
@@ -48,7 +47,7 @@ class PipeManager
 
   def move!
     grouped_pipes do |pipe, new_y|
-      pipe.x -= DEFAULTS[:throttle]
+      pipe.x -= DEFAULTS[:throttle][difficulty]
 
       if gone?(pipe)
         pipe.x = initial_x
@@ -59,9 +58,13 @@ class PipeManager
 
   private
 
+  def difficulty
+    @game.difficulty
+  end
+
   def vertical_offsets
-    offset = DEFAULTS[:difficulty][difficulty]
-    (-190..0).step(offset).map(&:itself)
+    step = DEFAULTS[:offset_step][difficulty]
+    (-190..0).step(step).map(&:itself)
   end
 
   def randomize_pipes!
