@@ -12,7 +12,7 @@ set title: 'Flappy Bird',
 
 game = Game.new(difficulty: :easy)
 scenario = Scenario.new(window: get(:window), game: game)
-bird = Bird.new(window: get(:window))
+bird = Bird.new(window: get(:window), game: game)
 
 on :key_down do |event|
   next if game.over? || game.paused? && event.key != 'p'
@@ -33,7 +33,7 @@ update do
   elsif Game.collision?(bird, scenario.objects)
     game.over!
   else
-    scenario.move!(game.started? ? {} : { skip: :pipes })
+    scenario.move!
     bird.move!
   end
 end

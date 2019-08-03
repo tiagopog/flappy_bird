@@ -8,14 +8,15 @@ class Scenario
 
   def initialize(window:, game:)
     @window = window
+    @game = game
     @landspace = build_landscape
     @ground_manager = GroundManager.new
     @pipe_manager = PipeManager.new(window: window, game: game)
   end
 
-  def move!(**options)
+  def move!
     ground_manager.move!
-    pipe_manager.move! unless options[:skip] == :pipes
+    pipe_manager.move! if @game.started?
   end
 
   def display_score!

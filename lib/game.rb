@@ -1,5 +1,5 @@
 class Game
-  attr_reader :started, :over, :paused, :difficulty
+  attr_reader :started, :over, :paused, :difficulty, :gravity
 
   def self.collision?(char, objects)
     Array(objects).any? do |object|
@@ -19,7 +19,8 @@ class Game
     @started = false
     @over = false
     @paused = false
-    @difficulty = attrs[:difficulty]
+    @difficulty = attrs[:difficulty] || :normal
+    @gravity = attrs[:gravity] || 0.7
   end
 
   def started!

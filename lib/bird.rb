@@ -1,13 +1,11 @@
 class Bird < Sprite
-  DEFAULTS = {
-    displacement: { float: 10, flight: 40 },
-    throttle: { float: 0.5, fly: 5, gravity: 2 }
-  }.freeze
+  attr_accessor :acceleration, :speed
 
-  attr_reader :throttle
-
-  def initialize(window:)
-    initial_floating!
+  def initialize(window:, game:)
+    @game = game
+    @speed = 0
+    @flight= 0
+    @acceleration = 0
 
     super(
       'assets/images/game_sprite.png',
@@ -29,51 +27,23 @@ class Bird < Sprite
     play(animation: :floating, loop: true)
   end
 
-  def move!
-    case @status
-    when :floating then float!
-    when :flying   then fly!
-    when :falling  then fall!
-    end
-  end
-
-  def float!
-    if @float.zero?
-      @float = DEFAULTS[:displacement][:float]
-      @float_direction *= -1
-    end
-
-    @float -= DEFAULTS[:throttle][:float]
-    self.y += @float_direction * DEFAULTS[:throttle][:float]
-  end
-
   def fly!
-    unless flying?
-      @status = :flying
-      @flight = DEFAULTS[:displacement][:flight]
+    self.acceleration = -3.5
+    self.speed = 0
+  end
+
+  def move!
+    if @game.started?
+      self.acceleration += gravity if acceleration < gravity
+      self.speed += acceleration
+      self.y += speed
     end
-
-    @flight -= DEFAULTS[:throttle][:fly]
-    self.y -= DEFAULTS[:throttle][:fly]
-
-    fall! if @flight <= 0
-  end
-
-  def fall!
-    @status = :falling
-    self.y += DEFAULTS[:throttle][:gravity]
-  end
-
-  def flying?
-    @status == :flying
   end
 
   private
 
-  def initial_floating!
-    @status = :floating
-    @float = 0
-    @float_direction = -1
+  def gravity
+    @game.gravity
   end
 end
 
