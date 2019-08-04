@@ -35,6 +35,7 @@ update do
   else
     scenario.move!
     bird.move!
+    game.check_score!(bird, scenario.pipes)
   end
 end
 

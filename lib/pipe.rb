@@ -7,6 +7,7 @@ class Pipe < Sprite
 
   def initialize(position:, **options)
     @position = position
+    @scored = false
 
     super(
       'assets/images/game_sprite.png',
@@ -19,6 +20,22 @@ class Pipe < Sprite
       clip_x: position == :top ? 112 : 168
     )
   end
+
+  def top?
+    position == :top
+  end
+
+  def score!
+    @scored = true
+  end
+
+  def unscore!
+    @scored = false
+  end
+
+  def unscored?
+    @scored == false
+  end
 end
 
 class PipeManager
@@ -26,7 +43,7 @@ class PipeManager
     top_y: 0,
     bottom_y: 370,
     distance: 117,
-    throttle: { easy: 2, normal: 2, hard: 3 },
+    acceleration: { easy: 2, normal: 2, hard: 3 },
     offset_step: { easy: 20, normal: 30, hard: 60 }
   }.freeze
 
@@ -47,11 +64,12 @@ class PipeManager
 
   def move!
     grouped_pipes do |pipe, new_y|
-      pipe.x -= DEFAULTS[:throttle][difficulty]
+      pipe.x -= DEFAULTS[:acceleration][difficulty]
 
       if gone?(pipe)
         pipe.x = initial_x
         pipe.y = new_y
+        pipe.unscore!
       end
     end
   end

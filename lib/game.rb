@@ -1,5 +1,5 @@
 class Game
-  attr_reader :started, :over, :paused, :difficulty, :gravity
+  attr_reader :started, :over, :paused, :difficulty, :gravity, :score
 
   def self.collision?(char, objects)
     Array(objects).any? do |object|
@@ -21,6 +21,7 @@ class Game
     @paused = false
     @difficulty = attrs[:difficulty] || :normal
     @gravity = attrs[:gravity] || 0.7
+    @score = 0
   end
 
   def started!
@@ -40,4 +41,19 @@ class Game
   end
 
   alias paused? paused
+
+  def score!
+    @score += 1
+  end
+
+  def check_score!(bird, pipes)
+    result = pipes
+      .lazy
+      .select(&:top?)
+      .select(&:unscored?)
+      .select { |pipe| bird.x >= pipe.x && bird.x <= pipe.x + pipe.width }
+      .first
+
+    result && score! && result.score!
+  end
 end

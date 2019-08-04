@@ -24,7 +24,15 @@ class Scenario
   end
 
   def objects
-    [*ground_manager.grounds, *pipe_manager.pipes]
+    [*grounds, *pipes]
+  end
+
+  def grounds
+    ground_manager.grounds
+  end
+
+  def pipes
+    pipe_manager.pipes
   end
 
   private
