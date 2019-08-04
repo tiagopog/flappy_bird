@@ -32,12 +32,24 @@ class Bird < Sprite
     self.speed = 0
   end
 
+  # Bird's initial "sine flight".
+  def float!
+    @init_y ||= self.y
+    self.speed = 0.4 if self.speed.zero?
+    self.speed *= -1 if (self.y - @init_y).abs >= 5
+  end
+
+  # Ensure decelerating the bird flight with gravity.
+  # If resulting acceleration get to the gravity level
+  # ensure not to overflow it.
+  def apply_gravity!
+    self.acceleration += gravity if acceleration < gravity
+    self.speed += acceleration
+  end
+
   def move!
-    if @game.started?
-      self.acceleration += gravity if acceleration < gravity
-      self.speed += acceleration
-      self.y += speed
-    end
+    @game.started? ? apply_gravity! : float!
+    self.y += speed
   end
 
   private
