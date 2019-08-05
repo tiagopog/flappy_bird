@@ -14,6 +14,7 @@ class Pipe < Sprite
       width: DEFAULTS[:width],
       height: DEFAULTS[:height],
       x: options[:x],
+      z: 1,
       clip_width: DEFAULTS[:width],
       clip_height: DEFAULTS[:height],
       clip_y: position == :top ? 715 : 646,

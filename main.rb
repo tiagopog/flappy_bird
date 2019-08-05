@@ -2,7 +2,11 @@ require 'ruby2d'
 
 require_relative 'lib/game'
 require_relative 'lib/scenario'
-require_relative 'lib/bird'
+
+require_relative 'lib/graphics'
+require_relative 'lib/graphics/bird'
+
+require_relative 'lib/logic/bird'
 
 set title: 'Flappy Bird',
   width: 286,
@@ -10,9 +14,25 @@ set title: 'Flappy Bird',
   resizable: false,
   background: 'blue'
 
+##
+# Game graphics
+##
+
+graphics = {
+  bird: Graphics::Bird.new(window: get(:window))
+}
+
+##
+# Game logic
+##
+
 game = Game.new(difficulty: :easy)
 scenario = Scenario.new(window: get(:window), game: game)
-bird = Bird.new(window: get(:window), game: game)
+bird = Logic::Bird.new(game: game, graphics: graphics[:bird])
+
+##
+# Events
+##
 
 on :key_down do |event|
   next if game.over? || game.paused? && event.key != 'p'
@@ -23,6 +43,10 @@ on :key_down do |event|
   when 'p' then game.pause!
   end
 end
+
+##
+# Game loop
+##
 
 update do
   if game.paused?
@@ -36,6 +60,7 @@ update do
     scenario.move!
     bird.move!
     game.check_score!(bird, scenario.pipes)
+    Graphics.update(graphics[:bird], bird)
   end
 end
 

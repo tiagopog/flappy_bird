@@ -20,7 +20,7 @@ class Scenario
   end
 
   def display_score!
-    @score ||= Square.new(size: 100, x: 94, y: 205, color: 'black')
+    @score ||= Square.new(size: 100, x: 94, y: 205, z: 3, color: 'black')
   end
 
   def objects
@@ -40,6 +40,7 @@ class Scenario
   def build_landscape
     Sprite.new(
       'assets/images/game_sprite.png',
+      z: 0,
       clip_width: @window.get(:width),
       clip_height: @window.get(:height)
     )
