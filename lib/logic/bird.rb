@@ -4,8 +4,9 @@ module Logic
   class Bird < BaseLogic
     attr_reader :acceleration, :speed
 
-    def initialize(game:, graphics:)
-      super
+    def initialize(game:)
+      super(game: game, width: 34, height: 24, x: 106, y: 243)
+
       @speed = 0
       @flight= 0
       @acceleration = 0

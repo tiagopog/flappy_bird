@@ -5,8 +5,6 @@ module Graphics
         'assets/images/game_sprite.png',
         width: 34,
         height: 24,
-        x: 106,
-        y: window.get(:height) / 2 - 12,
         z: 2,
         clip_width: 34,
         clip_height: 24,

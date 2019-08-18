@@ -15,6 +15,15 @@ set title: 'Flappy Bird',
   background: 'blue'
 
 ##
+# Game logic
+##
+
+logic = {}
+game = logic[:game] = Game.new(difficulty: :easy)
+scenario = logic[:scenario] = Scenario.new(window: get(:window), game: logic[:game])
+bird = logic[:bird] = Logic::Bird.new(game: logic[:game])
+
+##
 # Game graphics
 ##
 
@@ -22,13 +31,7 @@ graphics = {
   bird: Graphics::Bird.new(window: get(:window))
 }
 
-##
-# Game logic
-##
-
-game = Game.new(difficulty: :easy)
-scenario = Scenario.new(window: get(:window), game: game)
-bird = Logic::Bird.new(game: game, graphics: graphics[:bird])
+Graphics.update(graphics, logic)
 
 ##
 # Events
@@ -60,7 +63,7 @@ update do
     scenario.move!
     bird.move!
     game.check_score!(bird, scenario.pipes)
-    Graphics.update(graphics[:bird], bird)
+    Graphics.update(graphics, logic)
   end
 end
 
