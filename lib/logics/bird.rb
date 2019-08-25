@@ -1,6 +1,6 @@
 require_relative 'base_logic'
 
-module Logic
+class Logics
   class Bird < BaseLogic
     attr_reader :acceleration, :speed
 

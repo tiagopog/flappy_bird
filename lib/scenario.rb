@@ -9,7 +9,6 @@ class Scenario
   def initialize(window:, game:)
     @window = window
     @game = game
-    @landspace = build_landscape
     @ground_manager = GroundManager.new
     @pipe_manager = PipeManager.new(window: window, game: game)
   end
@@ -33,16 +32,5 @@ class Scenario
 
   def pipes
     pipe_manager.pipes
-  end
-
-  private
-
-  def build_landscape
-    Sprite.new(
-      'assets/images/game_sprite.png',
-      z: 0,
-      clip_width: @window.get(:width),
-      clip_height: @window.get(:height)
-    )
   end
 end

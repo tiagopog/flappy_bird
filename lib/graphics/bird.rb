@@ -1,6 +1,8 @@
-module Graphics
+require 'ruby2d'
+
+class Graphics
   class Bird < Sprite
-    def initialize(window:)
+    def initialize
       super(
         'assets/images/game_sprite.png',
         width: 34,

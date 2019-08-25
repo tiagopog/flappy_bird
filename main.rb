@@ -1,12 +1,14 @@
 require 'ruby2d'
 
-require_relative 'lib/game'
 require_relative 'lib/scenario'
+
+require_relative 'lib/logics'
+require_relative 'lib/logics/game'
+require_relative 'lib/logics/bird'
 
 require_relative 'lib/graphics'
 require_relative 'lib/graphics/bird'
-
-require_relative 'lib/logic/bird'
+require_relative 'lib/graphics/landscape'
 
 set title: 'Flappy Bird',
   width: 286,
@@ -15,23 +17,27 @@ set title: 'Flappy Bird',
   background: 'blue'
 
 ##
-# Game logic
+# Game logics
 ##
 
-logic = {}
-game = logic[:game] = Game.new(difficulty: :easy)
-scenario = logic[:scenario] = Scenario.new(window: get(:window), game: logic[:game])
-bird = logic[:bird] = Logic::Bird.new(game: logic[:game])
+logics = Logics.new
+game = Logics::Game.new(difficulty: :easy)
+
+scenario = Scenario.new(window: get(:window), game: game)
+
+bird = Logics::Bird.new(game: game)
+logics.add(:bird, bird)
 
 ##
 # Game graphics
 ##
 
-graphics = {
-  bird: Graphics::Bird.new(window: get(:window))
-}
+graphics = Graphics.new
 
-Graphics.update(graphics, logic)
+graphics.add(:bird, Graphics::Bird.new)
+graphics.add(:landscape, Graphics::Landscape.new(window: get(:window)))
+
+graphics.update!(logics)
 
 ##
 # Events
@@ -57,13 +63,13 @@ update do
   elsif game.over?
     scenario.display_score!
     next
-  elsif Game.collision?(bird, scenario.objects)
+  elsif Logics::Game.collision?(bird, scenario.objects)
     game.over!
   else
     scenario.move!
     bird.move!
     game.check_score!(bird, scenario.pipes)
-    Graphics.update(graphics, logic)
+    graphics.update!(logics)
   end
 end
 

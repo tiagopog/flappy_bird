@@ -1,4 +1,4 @@
-module Logic
+class Logics
   class BaseLogic
     attr_reader :game
     attr_accessor :width, :height, :x, :y
