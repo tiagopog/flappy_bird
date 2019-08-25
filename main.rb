@@ -8,6 +8,7 @@ require_relative 'lib/logics/bird'
 
 require_relative 'lib/graphics'
 require_relative 'lib/graphics/bird'
+require_relative 'lib/graphics/ground'
 require_relative 'lib/graphics/landscape'
 
 set title: 'Flappy Bird',
@@ -23,10 +24,13 @@ set title: 'Flappy Bird',
 logics = Logics.new
 game = Logics::Game.new(difficulty: :easy)
 
-scenario = Scenario.new(window: get(:window), game: game)
-
 bird = Logics::Bird.new(game: game)
 logics.add(:bird, bird)
+
+scenario = Scenario.new(window: get(:window), game: game)
+
+logics.add(:head_ground, scenario.head_ground)
+logics.add(:tail_ground, scenario.tail_ground)
 
 ##
 # Game graphics
@@ -36,6 +40,9 @@ graphics = Graphics.new
 
 graphics.add(:bird, Graphics::Bird.new)
 graphics.add(:landscape, Graphics::Landscape.new(window: get(:window)))
+
+logics.add(:head_ground, Graphics::Ground.new(x: 0))
+logics.add(:tail_ground, Graphics::Ground.new(x: 288))
 
 graphics.update!(logics)
 
