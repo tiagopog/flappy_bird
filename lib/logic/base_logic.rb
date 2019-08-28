@@ -1,6 +1,6 @@
 require 'forwardable'
 
-class Logics
+class Logic
   class BaseLogic
     extend Forwardable
 

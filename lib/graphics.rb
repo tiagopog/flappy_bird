@@ -1,19 +1,21 @@
 class Graphics
+  attr_accessor :logic
   attr_reader :objects
 
-  def initialize
+  def initialize(logic:)
     @objects = {}
+    @logic = logic
   end
 
   def add(key, graphic)
     @objects[key] = graphic
   end
 
-  def update!(logics)
+  def update!
     objects.keys.each do |id|
-      next unless logics[id]
-      objects[id].x = logics[id].x
-      objects[id].y = logics[id].y
+      next unless logic[id]
+      objects[id].x = logic[id].x
+      objects[id].y = logic[id].y
     end
   end
 end

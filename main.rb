@@ -1,50 +1,62 @@
 require 'ruby2d'
 
-require_relative 'lib/scenario'
-
-require_relative 'lib/logics'
-require_relative 'lib/logics/game'
-require_relative 'lib/logics/bird'
+require_relative 'lib/logic'
+require_relative 'lib/logic/game'
+require_relative 'lib/logic/bird'
+require_relative 'lib/logic/scenario'
 
 require_relative 'lib/graphics'
 require_relative 'lib/graphics/bird'
+require_relative 'lib/graphics/pipe'
 require_relative 'lib/graphics/ground'
 require_relative 'lib/graphics/landscape'
 
 set title: 'Flappy Bird',
-  width: 286,
+  width: 288,
   height: 510,
   resizable: false,
   background: 'blue'
 
 ##
-# Game logics
+# Game logic
 ##
 
-logics = Logics.new
-game = Logics::Game.new(difficulty: :easy)
+logic = Logic.new
+game = Logic::Game.new(difficulty: :easy)
+bird = Logic::Bird.new(game: game)
+scenario = Logic::Scenario.new(window: get(:window), game: game)
 
-bird = Logics::Bird.new(game: game)
-logics.add(:bird, bird)
+logic.add(:bird, bird)
 
-scenario = Scenario.new(window: get(:window), game: game)
+logic.add(:pft, scenario.pipes(:first, :top))
+logic.add(:pfb, scenario.pipes(:first, :bottom))
 
-logics.add(:head_ground, scenario.head_ground)
-logics.add(:tail_ground, scenario.tail_ground)
+logic.add(:plt, scenario.pipes(:last, :top))
+logic.add(:plb, scenario.pipes(:last, :bottom))
+
+logic.add(:fg, scenario.grounds(:first))
+logic.add(:lg, scenario.grounds(:last))
 
 ##
 # Game graphics
 ##
 
-graphics = Graphics.new
+graphics = Graphics.new(logic: logic)
 
 graphics.add(:bird, Graphics::Bird.new)
+
+graphics.add(:pft, Graphics::Pipe.new(x: 0, y: 0, position: :top))
+graphics.add(:pfb, Graphics::Pipe.new(x: 0, y: 370, position: :bottom))
+
+graphics.add(:plt, Graphics::Pipe.new(x: 288, y: 0, position: :top))
+graphics.add(:plb, Graphics::Pipe.new(x: 288, y: 370, position: :bottom))
+
+graphics.add(:fg, Graphics::Ground.new(x: 0))
+graphics.add(:lg, Graphics::Ground.new(x: 288))
+
 graphics.add(:landscape, Graphics::Landscape.new(window: get(:window)))
 
-logics.add(:head_ground, Graphics::Ground.new(x: 0))
-logics.add(:tail_ground, Graphics::Ground.new(x: 288))
-
-graphics.update!(logics)
+graphics.update!
 
 ##
 # Events
@@ -70,13 +82,13 @@ update do
   elsif game.over?
     scenario.display_score!
     next
-  elsif Logics::Game.collision?(bird, scenario.objects)
+  elsif Logic.collision?(bird, scenario.objects)
     game.over!
   else
     scenario.move!
     bird.move!
     game.check_score!(bird, scenario.pipes)
-    graphics.update!(logics)
+    graphics.update!
   end
 end
 

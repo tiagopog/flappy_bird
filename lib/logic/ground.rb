@@ -1,6 +1,6 @@
 require_relative './base_logic'
 
-class Logics
+class Logic
   class Ground < BaseLogic
     def initialize(x:)
       super(
@@ -13,25 +13,20 @@ class Logics
   end
 
   class GroundManager
-    attr_reader :grounds
-
     def initialize
       @grounds = {
-        head: Ground.new(x: 0),
-        tails: Ground.new(x: 288)
+        first: Ground.new(x: 0),
+        last: Ground.new(x: 288)
       }
     end
 
-    def head_ground
-      grounds[:head]
-    end
-
-    def tail_ground
-      grounds[:tail]
+    def grounds(*keys)
+      return @grounds.values if keys.empty?
+      @grounds.dig(*keys)
     end
 
     def move!
-      grounds.each do |_id, ground|
+      grounds.each do |ground|
         ground.x -= 1
         if ground.width + ground.x <= 0
           ground.x = ground.width

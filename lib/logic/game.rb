@@ -1,20 +1,6 @@
-class Logics
+class Logic
   class Game
     attr_reader :started, :over, :paused, :difficulty, :gravity, :score
-
-    def self.collision?(char, objects)
-      Array(objects).any? do |object|
-        horizontal =
-          char.x + char.width > object.x &&
-            char.x < object.x + object.width
-
-        vertical =
-          object.y + object.height > char.y &&
-            object.y < char.y + char.height
-
-        horizontal && vertical
-      end
-    end
 
     def initialize(attrs = {})
       @started = false
