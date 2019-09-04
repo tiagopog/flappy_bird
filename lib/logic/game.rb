@@ -3,11 +3,16 @@ class Logic
     attr_reader :started, :over, :paused, :difficulty, :gravity, :score
 
     def initialize(attrs = {})
+      @attrs = attrs
+      restart!
+    end
+
+    def restart!
       @started = false
       @over = false
       @paused = false
-      @difficulty = attrs[:difficulty] || :normal
-      @gravity = attrs[:gravity] || 0.7
+      @difficulty = @attrs[:difficulty] || :normal
+      @gravity = @attrs[:gravity] || 0.7
       @score = 0
     end
 

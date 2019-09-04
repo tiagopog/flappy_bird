@@ -1,6 +1,10 @@
 class Logic
   attr_reader :objects
 
+  def self.restart!(*objects)
+    objects.map(&:restart!)
+  end
+
   def self.collision?(char, objects)
     Array(objects).any? do |object|
       horizontal =

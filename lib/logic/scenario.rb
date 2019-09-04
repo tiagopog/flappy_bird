@@ -18,6 +18,12 @@ class Logic
       @game = game
       @ground_manager = Logic::GroundManager.new
       @pipe_manager = Logic::PipeManager.new(window: window, game: game)
+      @score ||= Square.new(size: 100, x: 94, y: 205, z: -9999, color: 'black')
+    end
+
+    def restart!
+      @score.z = -9999
+      [ground_manager, pipe_manager].map(&:restart!)
     end
 
     def objects
@@ -30,7 +36,7 @@ class Logic
     end
 
     def display_score!
-      @score ||= Square.new(size: 100, x: 94, y: 205, z: 3, color: 'black')
+      @score.z = 3
     end
   end
 end

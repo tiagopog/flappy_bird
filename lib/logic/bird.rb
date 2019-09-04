@@ -5,8 +5,13 @@ class Logic
     attr_reader :acceleration, :speed
 
     def initialize(game:)
-      super(game: game, width: 34, height: 24, x: 106, y: 243)
+      super(game: game, width: 34, height: 24)
+      restart!
+    end
 
+    def restart!
+      @x = 106
+      @y = 243
       @speed = 0
       @flight= 0
       @acceleration = 0

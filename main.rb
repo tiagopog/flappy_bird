@@ -63,12 +63,17 @@ graphics.update!
 ##
 
 on :key_down do |event|
-  next if game.over? || game.paused? && event.key != 'p'
-  game.started!
+  if game.over?
+    Logic.restart!(game, bird, scenario)
+  elsif game.paused? && event.key != 'p'
+    next
+  else
+    game.started!
 
-  case event.key
-  when 'space' then bird.fly!
-  when 'p' then game.pause!
+    case event.key
+    when 'space' then bird.fly!
+    when 'p' then game.pause!
+    end
   end
 end
 

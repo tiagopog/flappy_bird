@@ -2,22 +2,20 @@ require_relative './base_logic'
 
 class Logic
   class Ground < BaseLogic
-    def initialize(x:)
-      super(
-        width: 288,
-        height: 110,
-        x: x,
-        y: 430
-      )
+    def initialize
+      super(width: 288, height: 110, y: 430)
     end
   end
 
   class GroundManager
     def initialize
-      @grounds = {
-        first: Ground.new(x: 0),
-        last: Ground.new(x: 288)
-      }
+      @grounds = { first: Ground.new, last: Ground.new }
+      restart!
+    end
+
+    def restart!
+      grounds(:first).x = 0
+      grounds(:last).x = 288
     end
 
     def grounds(*keys)

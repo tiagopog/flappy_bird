@@ -43,16 +43,23 @@ class Logic
       @game = game
       @pipes = {
         first: {
-          top: Pipe.new(position: :top, x: initial_x(:first)),
-          bottom: Pipe.new(position: :bottom, x: initial_x(:first))
+          top: Pipe.new(position: :top),
+          bottom: Pipe.new(position: :bottom)
         },
         last: {
-          top: Pipe.new(position: :top, x: initial_x(:last)),
-          bottom: Pipe.new(position: :bottom, x: initial_x(:last))
+          top: Pipe.new(position: :top),
+          bottom: Pipe.new(position: :bottom)
         }
       }
 
-      randomize_pipes!
+      restart!
+    end
+
+    def restart!
+      grouped_pipes do |id, pipe, new_y|
+        pipe.x = initial_x(id)
+        pipe.y = new_y
+      end
     end
 
     def pipes(*keys)
@@ -64,7 +71,7 @@ class Logic
     end
 
     def move!
-      grouped_pipes do |pipe, new_y|
+      grouped_pipes do |_id, pipe, new_y|
         pipe.x -= DEFAULTS[:acceleration][difficulty]
 
         if gone?(pipe)
@@ -86,23 +93,17 @@ class Logic
       (-190..0).step(step).map(&:itself)
     end
 
-    def randomize_pipes!
-      grouped_pipes do |pipe, new_y|
-        pipe.y = new_y
-      end
-    end
-
     def gone?(pipe)
       pipe.x + pipe.width <= 0
     end
 
     def grouped_pipes
-      @pipes.values.each do |group|
+      @pipes.each do |id, group|
         offset = vertical_offsets.sample
 
         group.values.each do |pipe|
           new_y = DEFAULTS[:"#{pipe.position}_y"] + offset
-          yield(pipe, new_y)
+          yield(id, pipe, new_y)
         end
       end
     end
