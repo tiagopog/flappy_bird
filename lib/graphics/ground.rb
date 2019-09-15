@@ -15,5 +15,10 @@ class Graphics
         clip_x: 584,
       )
     end
+
+    def update!(logic)
+      self.x = logic.x
+      self.y = logic.y
+    end
   end
 end

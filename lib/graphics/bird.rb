@@ -21,5 +21,10 @@ class Graphics
 
       play(animation: :floating, loop: true)
     end
+
+    def update!(logic)
+      self.x = logic.x
+      self.y = logic.y
+    end
   end
 end

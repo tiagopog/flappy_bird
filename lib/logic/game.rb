@@ -38,15 +38,18 @@ class Logic
       @score += 1
     end
 
-    def check_score!(bird, pipes)
-      result = pipes
-        .lazy
-        .select(&:top?)
-        .select(&:unscored?)
-        .select { |pipe| bird.x >= pipe.x && bird.x <= pipe.x + pipe.width }
-        .first
+    def check_if_scored!(bird, pipes)
+      pipe =
+        pipes
+          .lazy
+          .select(&:top?)
+          .select(&:unscored?)
+          .find { |pipe| bird.x >= pipe.x && bird.x <= pipe.x + pipe.width }
 
-      result && score! && result.score!
+      return unless pipe
+
+      score!
+      pipe.scored!
     end
   end
 end

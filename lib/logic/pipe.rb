@@ -16,11 +16,11 @@ class Logic
       position == :top
     end
 
-    def score!
+    def scored!
       @scored = true
     end
 
-    def unscore!
+    def unscored!
       @scored = false
     end
 
@@ -59,6 +59,7 @@ class Logic
       grouped_pipes do |id, pipe, new_y|
         pipe.x = initial_x(id)
         pipe.y = new_y
+        pipe.unscored!
       end
     end
 
@@ -77,7 +78,7 @@ class Logic
         if gone?(pipe)
           pipe.x = initial_x
           pipe.y = new_y
-          pipe.unscore!
+          pipe.unscored!
         end
       end
     end

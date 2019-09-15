@@ -7,6 +7,7 @@ require_relative 'lib/logic/scenario'
 
 require_relative 'lib/graphics'
 require_relative 'lib/graphics/bird'
+require_relative 'lib/graphics/score'
 require_relative 'lib/graphics/pipe'
 require_relative 'lib/graphics/ground'
 require_relative 'lib/graphics/landscape'
@@ -27,6 +28,7 @@ bird = Logic::Bird.new(game: game)
 scenario = Logic::Scenario.new(window: get(:window), game: game)
 
 logic.add(:bird, bird)
+logic.add(:score, game)
 
 logic.add(:pft, scenario.pipes(:first, :top))
 logic.add(:pfb, scenario.pipes(:first, :bottom))
@@ -44,6 +46,7 @@ logic.add(:lg, scenario.grounds(:last))
 graphics = Graphics.new(logic: logic)
 
 graphics.add(:bird, Graphics::Bird.new)
+graphics.add(:score, Graphics::Score.new)
 
 graphics.add(:pft, Graphics::Pipe.new(x: 0, y: 0, position: :top))
 graphics.add(:pfb, Graphics::Pipe.new(x: 0, y: 370, position: :bottom))
@@ -92,7 +95,7 @@ update do
   else
     scenario.move!
     bird.move!
-    game.check_score!(bird, scenario.pipes)
+    game.check_if_scored!(bird, scenario.pipes)
     graphics.update!
   end
 end

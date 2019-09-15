@@ -12,10 +12,9 @@ class Graphics
   end
 
   def update!
-    objects.keys.each do |id|
-      next unless logic[id]
-      objects[id].x = logic[id].x
-      objects[id].y = logic[id].y
+    objects.each do |id, object|
+      next unless logic[id] && object.respond_to?(:update!)
+      object.update!(logic[id])
     end
   end
 end
