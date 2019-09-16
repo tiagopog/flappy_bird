@@ -4,10 +4,10 @@ class Logic
 
     def initialize(attrs = {})
       @attrs = attrs
-      restart!
+      reset!
     end
 
-    def restart!
+    def reset!
       @started = false
       @over = false
       @paused = false

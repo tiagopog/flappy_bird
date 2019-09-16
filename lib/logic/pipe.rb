@@ -52,10 +52,10 @@ class Logic
         }
       }
 
-      restart!
+      reset!
     end
 
-    def restart!
+    def reset!
       grouped_pipes do |id, pipe, new_y|
         pipe.x = initial_x(id)
         pipe.y = new_y

@@ -10,10 +10,10 @@ class Logic
   class GroundManager
     def initialize
       @grounds = { first: Ground.new, last: Ground.new }
-      restart!
+      reset!
     end
 
-    def restart!
+    def reset!
       grounds(:first).x = 0
       grounds(:last).x = 288
     end

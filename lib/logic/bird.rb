@@ -6,10 +6,10 @@ class Logic
 
     def initialize(game:)
       super(game: game, width: 34, height: 24)
-      restart!
+      reset!
     end
 
-    def restart!
+    def reset!
       @x = 106
       @y = 243
       @speed = 0

@@ -1,8 +1,8 @@
 class Logic
   attr_reader :objects
 
-  def self.restart!(*objects)
-    objects.map(&:restart!)
+  def self.reset!(*objects)
+    objects.map(&:reset!)
   end
 
   def self.collision?(char, objects)

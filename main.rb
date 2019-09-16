@@ -62,12 +62,12 @@ graphics.add(:landscape, Graphics::Landscape.new(window: get(:window)))
 graphics.update!
 
 ##
-# Events
+# Event handling
 ##
 
 on :key_down do |event|
   if game.over?
-    Logic.restart!(game, bird, scenario)
+    Logic.reset!(game, bird, scenario)
   elsif game.paused? && event.key != 'p'
     next
   else

@@ -21,9 +21,9 @@ class Logic
       @score ||= Square.new(size: 100, x: 94, y: 205, z: -9999, color: 'black')
     end
 
-    def restart!
+    def reset!
       @score.z = -9999
-      [ground_manager, pipe_manager].map(&:restart!)
+      [ground_manager, pipe_manager].map(&:reset!)
     end
 
     def objects
