@@ -6,6 +6,19 @@ Flappy Bird game written in Ruby with the awesome [ruby2d](http://www.ruby2d.com
 
 > Note: the low frame rate here is due to the GIF recording not the game itself.
 
+## Goals
+
+- Learn more about game physics and collision detection;
+- Separate game logic from graphics.
+
+## Todo
+
+- [ ] Improve opening scene;
+- [ ] Improve game over scence (add medals and best score);
+- [ ] Improve bird's flight and fall animations.
+
+PRs are welcome :-) 
+
 # Install
 
 Make sure you have installed:
