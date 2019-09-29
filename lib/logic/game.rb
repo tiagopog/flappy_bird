@@ -1,6 +1,7 @@
 class Logic
   class Game
-    attr_reader :started, :over, :paused, :difficulty, :gravity, :score
+    attr_reader :started, :over, :over_at, :paused,:difficulty, :gravity,
+                :score
 
     def initialize(attrs = {})
       @attrs = attrs
@@ -10,13 +11,14 @@ class Logic
     def reset!
       @started = false
       @over = false
+      @over_at = nil
       @paused = false
       @difficulty = @attrs[:difficulty] || :normal
       @gravity = @attrs[:gravity] || 0.7
       @score = 0
     end
 
-    def started!
+    def start!
       @started ||= true
     end
 
@@ -24,6 +26,7 @@ class Logic
 
     def over!
       @over = true
+      @over_at = Time.now
     end
 
     alias over? over

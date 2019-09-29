@@ -34,9 +34,5 @@ class Logic
       ground_manager.move!
       pipe_manager.move! if @game.started?
     end
-
-    def display_score!
-      @score.z = 3
-    end
   end
 end
