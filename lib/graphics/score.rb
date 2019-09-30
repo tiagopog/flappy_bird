@@ -44,7 +44,7 @@ class Graphics
 
     def apply_score_digits!(score)
       p1, p2, p3 = @placeholders
-      d1, d2, d3 = score.to_s.split("")
+      d1, d2, d3 = score.to_s.split('')
 
       p1.update!(d1) if d1
       p2.update!(d2) if d2

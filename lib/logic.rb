@@ -1,23 +1,30 @@
+# frozen_string_literal: true
+
 class Logic
   attr_reader :objects
 
-  def self.reset!(*objects)
-    objects.map(&:reset!)
-  end
+  class << self
+    def reset!(*objects)
+      objects.map(&:reset!)
+    end
 
-  def self.collision?(char, objects)
-    Array(objects).any? do |object|
-      horizontal =
-        char.x + char.width > object.x &&
-          char.x < object.x + object.width
-
-      vertical =
-        object.y + object.height > char.y &&
-          object.y < char.y + char.height
-
-      if horizontal && vertical
+    def collision?(char, objects)
+      Array(objects).any? do |object|
+        horizontal_overlap(char, object) &&
+          vertical_overlap(char, object)
       end
-      horizontal && vertical
+    end
+
+    private
+
+    def horizontal_overlap(char, object)
+      char.x + char.width > object.x &&
+        char.x < object.x + object.width
+    end
+
+    def vertical_overlap(char, object)
+      object.y + object.height > char.y &&
+        object.y < char.y + char.height
     end
   end
 
@@ -26,7 +33,7 @@ class Logic
   end
 
   def add(key, logic)
-    @objects[key] =logic
+    @objects[key] = logic
   end
 
   def [](key)

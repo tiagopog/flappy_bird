@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative 'base_logic'
 
 class Logic
@@ -13,7 +15,7 @@ class Logic
       @x = 106
       @y = 243
       @speed = 0
-      @flight= 0
+      @flight = 0
       @acceleration = 0
     end
 

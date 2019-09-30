@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Graphics
   attr_accessor :logic
   attr_reader :objects

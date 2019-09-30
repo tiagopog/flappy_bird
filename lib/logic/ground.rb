@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative './base_logic'
 
 class Logic
@@ -26,9 +28,7 @@ class Logic
     def move!
       grounds.each do |ground|
         ground.x -= 1
-        if ground.width + ground.x <= 0
-          ground.x = ground.width
-        end
+        ground.x = ground.width if ground.width + ground.x <= 0
       end
     end
   end

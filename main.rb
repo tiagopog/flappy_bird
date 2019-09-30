@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'ruby2d'
 
 require_relative 'lib/logic'
@@ -14,10 +16,10 @@ require_relative 'lib/graphics/score'
 require_relative 'lib/graphics/game_over'
 
 set title: 'Flappy Bird',
-  width: 288,
-  height: 510,
-  resizable: false,
-  background: 'blue'
+    width: 288,
+    height: 510,
+    resizable: false,
+    background: 'blue'
 
 ##
 # Game logic
