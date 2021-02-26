@@ -14,8 +14,9 @@ class Graphics
   end
 
   def update!
-    objects.each do |id, object|
+    objects.each_pair do |id, object|
       next unless logic[id] && object.respond_to?(:update!)
+
       object.update!(logic[id])
     end
   end

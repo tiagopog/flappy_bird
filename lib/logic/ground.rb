@@ -22,6 +22,7 @@ class Logic
 
     def grounds(*keys)
       return @grounds.values if keys.empty?
+
       @grounds.dig(*keys)
     end
 
