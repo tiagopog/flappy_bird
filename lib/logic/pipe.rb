@@ -104,7 +104,7 @@ class Logic
       @pipes.each do |id, group|
         offset = vertical_offsets.sample
 
-        group.values.each do |pipe|
+        group.each_value do |pipe|
           new_y = DEFAULTS[:"#{pipe.position}_y"] + offset
           yield(id, pipe, new_y)
         end

@@ -14,10 +14,10 @@ Flappy Bird game written in Ruby with the awesome [ruby2d](http://www.ruby2d.com
 ## Todo
 
 - [ ] Improve opening scene;
-- [ ] Improve game over scence (add medals and best score);
+- [ ] Improve game over scene (add medals and best score);
 - [ ] Improve bird's flight and fall animations.
 
-PRs are welcome :-) 
+PRs are welcome :-)
 
 # Install
 
@@ -40,6 +40,13 @@ Then clone the source code to your local:
 
 ```
 git clone https://github.com/tiagopog/flappy_bird.git
+```
+
+## Ubuntu / Debian
+
+```bash
+$ sudo apt install libsdl2-dev libsdl2-image-dev libsdl2-mixer-dev libsdl2-ttf-dev libgles2-mesa-dev
+$ url='https://raw.githubusercontent.com/simple2d/simple2d/master/bin/simple2d.sh'; which curl > /dev/null && cmd='curl -fsSL' || cmd='wget -qO -'; bash <($cmd $url) install
 ```
 
 # Play

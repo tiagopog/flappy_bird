@@ -73,9 +73,9 @@ graphics.update!
 ##
 
 on :key_down do |event|
-  if event.key != 'space'
-    next
-  elsif game.over?
+  next unless event.key == 'space'
+
+  if game.over?
     time_delta = Time.now - game.over_at
     Logic.reset!(game, bird, scenario) if time_delta > 1 # second
   else
@@ -89,9 +89,9 @@ end
 ##
 
 update do
-  if game.paused?
-    next
-  elsif game.over?
+  next if game.paused?
+
+  if game.over?
     bird.move! unless Logic.collision?(bird, scenario.grounds)
     graphics.update!
     next

@@ -1,6 +1,6 @@
 class Logic
   class Game
-    attr_reader :started, :over, :over_at, :paused,:difficulty, :gravity,
+    attr_reader :started, :over, :over_at, :paused, :difficulty, :gravity,
                 :score
 
     def initialize(attrs = {})
@@ -42,17 +42,17 @@ class Logic
     end
 
     def check_if_scored!(bird, pipes)
-      pipe =
+      pipe_result =
         pipes
-          .lazy
-          .select(&:top?)
-          .select(&:unscored?)
-          .find { |pipe| bird.x >= pipe.x && bird.x <= pipe.x + pipe.width }
+        .lazy
+        .select(&:top?)
+        .select(&:unscored?)
+        .find { |pipe| bird.x >= pipe.x && bird.x <= pipe.x + pipe.width }
 
-      return unless pipe
+      return unless pipe_result
 
       score!
-      pipe.scored!
+      pipe_result.scored!
     end
   end
 end
